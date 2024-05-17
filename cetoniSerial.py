@@ -474,8 +474,8 @@ class FakeSyringe(Syringe):
 
 
 if __name__ == "__main__":
-    S1 = cs.Syringe("/dev/ttyUSB0", volume =1000)
-    S2 = cs.Syringe("", volume = 1000, ser=S1.ser, node=3)
+    S1 = Syringe("/dev/ttyUSB0", volume =1000)
+    S2 = Syringe("", volume = 1000, ser=S1.ser, node=3)
     
     S1.toInput()
     S1.positionAbsolute(0)
