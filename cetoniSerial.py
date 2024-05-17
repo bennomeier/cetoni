@@ -156,6 +156,9 @@ class Syringe(object):
 
         #time.sleep(2)
         print("State register after switch on and enable operation: ", self.read(0x6041, 0, 2))
+
+        self.velocity = 0
+        self.readVelocity()
         
         #self.write(0x1017, 0x00, 4, 400)
             
@@ -232,13 +235,19 @@ class Syringe(object):
             
         ans2 = ans2 + self.ser.read(extraBytes)
         
-        ans = ans1[2:] + ans2        
+        ans = ans1[2:] + ans2
+        
         #print(ans)
         #print(length)
         
         #remove byte stuffing
         #print("Before: ", ans)
         ans = ans.replace(self.DLE + self.DLE, self.DLE)
+        #print("After: ", ans)
+
+        
+        #print("ANS: ", ans)
+
         ansLen = int(len(ans)/2)
         ansAsIntegerArray = struct.unpack("<{:d}H".format(ansLen), ans)
         #print(ansAsIntegerArray)
@@ -433,6 +442,8 @@ class Syringe(object):
         self.executePositionRelative()
         self.waitUntilReady()
         return None
+        #time.sleep(abs(volume)/self.velocity)
+        
     
     def vol2increments(self, vol):
         # the position conversion factor has dimension increments / mm
@@ -470,9 +481,12 @@ class FakeSyringe(Syringe):
 
 
     def read(self):
-        return "No Hardware connection"        
+        return "No Hardware connection"
+    
 
-
+        
+        
+        
 if __name__ == "__main__":
     S1 = Syringe("/dev/ttyUSB0", volume =1000)
     S2 = Syringe("", volume = 1000, ser=S1.ser, node=3)
@@ -488,6 +502,7 @@ if __name__ == "__main__":
     S1.executePositionRelative()
     
     # for aspirate / dispense action
+    S2.setFlowRate(100)
     S2.toInput()
     S2.aspirate(100)
 
