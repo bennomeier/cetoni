@@ -10,6 +10,8 @@ pip install pyserial
 
 When using more than one syringe, the serial interface of the first syringe has to be passed as an optional keyword to the init routine of the second syringe as demonstrated in the code below.
 
+Note that you always have to set a non-zero flow rate (in microliter / s) after powering up the syringes.
+
 # Usage
 ```python
 import cetoniSerial as cs
@@ -27,6 +29,7 @@ S1.configurePositionRelativeByVolume(-100)
 S1.executePositionRelative()
     
 # for aspirate / dispense action
+S2.setFlowRate(50)
 S2.toInput()
 S2.aspirate(100)
 
