@@ -1,5 +1,5 @@
 # cetoni
-Python Module for controlling Cetoni Syringe Pumps over a Serial port
+Python Module for controlling Cetoni Nemesys V4 Syringe Pumps over a Serial port
 
 This module allows usage of Cetoni Syringe pumps without the CetoniSDK and runs on most operating systems, including Raspberry Pi's, etc. 
 
